@@ -1,0 +1,47 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import CvRow from "../components/CvRow.astro";
+import { loadCv } from "../lib/cv";
+
+const cv = loadCv();
+---
+
+<Base title="CV — Nye Warburton" description={cv.lead}>
+  <main id="main" class="page page-wide">
+    <header class="page-head">
+      <PageHead title={cv.title} />
+      <p class="lead">{cv.lead}</p>
+    </header>
+
+    <section class="cv-section" aria-labelledby="education-heading">
+      <h2 id="education-heading" class="kicker">Education</h2>
+      <ol class="cv-list">
+        {cv.education.map((row) => <CvRow row={row} />)}
+      </ol>
+    </section>
+
+    {
+      cv.sections.map((section) => {
+        const id = section.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        return (
+          <section class="cv-section" aria-labelledby={id}>
+            <h2 id={id} class="kicker">
+              {section.heading}
+            </h2>
+            <ol class="cv-list">
+              {section.rows.map((row) => (
+                <CvRow row={row} />
+              ))}
+            </ol>
+          </section>
+        );
+      })
+    }
+
+    <p class="source">
+      Source: <a href={cv.source.href} rel="noopener noreferrer">{cv.source.label}</a>. Current
+      title updated to Dean, STEC.
+    </p>
+  </main>
+</Base>

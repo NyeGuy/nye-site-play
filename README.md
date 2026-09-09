@@ -1,6 +1,8 @@
 # nye-site-play
 
-Personal homepage (v1, home only) for Nye Warburton. Fast Astro static site. Vercel playground — root hosting, base `/`.
+Personal homepage (v2) for Nye Warburton. Fast Astro static site. Vercel playground — root hosting, base `/`.
+
+Routes: `/` · `/writing` · `/cv`. Essays stay on [Paragraph](https://paragraph.com/@nyewarburton.eth).
 
 ## Ownership
 
@@ -19,9 +21,10 @@ Requires Node >= 22.
 
 ```bash
 npm install
+npm run ingest
 npm run dev
 npm run build
 npm run preview
 ```
 
-Edit copy in `content/`. Hero, ethos, work links, and meta live in JSON. Background bio is `content/background.md`.
+Edit copy in `content/`. Hero, ethos, work links, CV, writing intro, and meta live in JSON. Background bio is `content/background.md`. `content/posts.json` is generated from Paragraph at ingest/build time.

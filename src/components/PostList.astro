@@ -1,0 +1,23 @@
+---
+import { formatDate, type Post } from "../lib/posts";
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ol class="post-list">
+  {
+    posts.map((post) => (
+      <li>
+        <time datetime={post.date}>{formatDate(post.date)}</time>
+        <a href={post.url} rel="noopener noreferrer">
+          {post.title}
+        </a>
+        {post.description ? <p>{post.description}</p> : null}
+      </li>
+    ))
+  }
+</ol>

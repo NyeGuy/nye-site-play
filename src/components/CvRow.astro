@@ -1,0 +1,18 @@
+---
+import type { CvRow as Row } from "../lib/cv";
+
+interface Props {
+  row: Row;
+}
+
+const { row } = Astro.props;
+---
+
+<li class="cv-row">
+  <span class="when">{row.when}</span>
+  <div>
+    <p class="cv-title">{row.title}</p>
+    {row.org ? <p class="cv-org">{row.org}</p> : null}
+    {row.note ? <p class="cv-note">{row.note}</p> : null}
+  </div>
+</li>

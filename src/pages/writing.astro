@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHead from "../components/PageHead.astro";
+import PostList from "../components/PostList.astro";
+import { loadPosts, loadWriting } from "../lib/posts";
+
+const writing = loadWriting();
+const posts = loadPosts();
+---
+
+<Base title="Writing — Nye Warburton" description={writing.intro}>
+  <main id="main" class="page">
+    <header class="page-head">
+      <PageHead title={writing.heading} />
+      <p class="lead">{writing.intro}</p>
+      <p class="subscribe">
+        <a href={writing.subscribeHref} rel="noopener noreferrer">{writing.subscribeLabel}</a>
+        <span class="sep">·</span>
+        <a class="quiet" href={writing.secondaryHref} rel="noopener noreferrer">{writing.secondaryLabel}</a>
+      </p>
+    </header>
+
+    {
+      posts.length ? (
+        <PostList posts={posts} />
+      ) : (
+        <p class="lead">
+          {writing.empty}{" "}
+          <a href={writing.subscribeHref} rel="noopener noreferrer">
+            Paragraph
+          </a>
+        </p>
+      )
+    }
+  </main>
+</Base>
