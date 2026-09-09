@@ -1,0 +1,57 @@
+---
+import Base from "../layouts/Base.astro";
+import { loadSite } from "../lib/site";
+
+const site = loadSite();
+const closer = site.ethos.items.at(-1) ?? "";
+const ethosItems = site.ethos.items.slice(0, -1);
+---
+
+<Base title={site.meta.title} description={site.meta.description}>
+  <main id="main" class="page">
+    <header class="hero">
+      <h1>{site.hero.name}</h1>
+      <p class="role">{site.hero.role}</p>
+      <p class="students">{site.hero.students}</p>
+      <p class="lead">{site.hero.lead}</p>
+    </header>
+
+    <section class="ethos" aria-labelledby="ethos-heading">
+      <h2 id="ethos-heading" class="visually-hidden">{site.ethos.heading}</h2>
+      <ul class="ethos-list">
+        {ethosItems.map((item) => <li>{item}</li>)}
+        <li>{closer}</li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="work-heading">
+      <h2 id="work-heading" class="kicker">{site.work.heading}</h2>
+      <ul class="work-list">
+        {
+          site.work.links.map((link) => (
+            <li class={link.quiet ? "quiet" : undefined}>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="section background" aria-labelledby="background-heading">
+      <h2 id="background-heading" class="kicker">{site.background.heading}</h2>
+      {site.background.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+  </main>
+</Base>
+
+<style>
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+</style>

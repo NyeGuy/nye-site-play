@@ -1,0 +1,22 @@
+{
+  "heading": "Work",
+  "links": [
+    {
+      "label": "Paragraph",
+      "href": "https://paragraph.com/@nyewarburton.eth"
+    },
+    {
+      "label": "Substack",
+      "href": "https://nyewarburton.substack.com"
+    },
+    {
+      "label": "Writing",
+      "href": "https://nyewarburton.com/writing/"
+    },
+    {
+      "label": "Book",
+      "href": "https://nyewarburton.com/book/",
+      "quiet": true
+    }
+  ]
+}
