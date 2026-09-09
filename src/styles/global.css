@@ -159,7 +159,7 @@ body {
 .work-list a {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: var(--line);
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, var(--line));
   text-underline-offset: 0.18em;
 }
 
