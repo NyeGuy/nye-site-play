@@ -1,11 +1,13 @@
 {
   "heading": "Writing",
-  "homeCount": 6,
-  "allLabel": "All writing",
-  "intro": "Weekly essays from Nye’s Digital Lab on Paragraph. Titles and short descriptions only — full pieces live there.",
-  "subscribeLabel": "Subscribe on Paragraph",
+  "homeCount": 5,
+  "allLabel": "Draft shortlist",
+  "intro": "A DRAFT provisional shortlist from the public writing archive — not a ranking. Nye still names the final ~20. Full pieces live on Paragraph, Mirror, or the archive.",
+  "subscribeLabel": "All essays on Paragraph",
   "subscribeHref": "https://paragraph.com/@nyewarburton.eth",
   "secondaryLabel": "Substack",
   "secondaryHref": "https://nyewarburton.substack.com",
-  "empty": "The writing list could not be loaded. Read the essays on Paragraph."
+  "searchLabel": "Search titles and blurbs",
+  "searchEmpty": "No essays match.",
+  "empty": "The shortlist could not be loaded. Read the essays on Paragraph."
 }

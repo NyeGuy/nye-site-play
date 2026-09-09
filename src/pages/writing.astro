@@ -2,16 +2,18 @@
 import Base from "../layouts/Base.astro";
 import PageHead from "../components/PageHead.astro";
 import PostList from "../components/PostList.astro";
-import { loadPosts, loadWriting } from "../lib/posts";
+import { loadEssays, loadEssaysFile, loadWriting } from "../lib/posts";
 
 const writing = loadWriting();
-const posts = loadPosts();
+const essaysFile = loadEssaysFile();
+const posts = loadEssays();
 ---
 
 <Base title="Writing — Nye Warburton" description={writing.intro}>
   <main id="main" class="page">
     <header class="page-head">
       <PageHead title={writing.heading} />
+      <p class="draft-label">{essaysFile.label}</p>
       <p class="lead">{writing.intro}</p>
       <p class="subscribe">
         <a href={writing.subscribeHref} rel="noopener noreferrer">{writing.subscribeLabel}</a>
@@ -22,7 +24,20 @@ const posts = loadPosts();
 
     {
       posts.length ? (
-        <PostList posts={posts} />
+        <div class="essay-filter">
+          <label class="search">
+            <span class="visually-hidden">{writing.searchLabel}</span>
+            <input
+              id="essay-search"
+              type="search"
+              placeholder={writing.searchLabel}
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </label>
+          <PostList posts={posts} />
+          <p id="essay-empty" class="search-empty" hidden>{writing.searchEmpty}</p>
+        </div>
       ) : (
         <p class="lead">
           {writing.empty}{" "}
@@ -32,5 +47,44 @@ const posts = loadPosts();
         </p>
       )
     }
+
+    <p class="source">
+      Source: <a href={essaysFile.source.href} rel="noopener noreferrer">{essaysFile.source.label}</a>.
+      The rest of the weekly essays live on{" "}
+      <a href={essaysFile.archiveHref} rel="noopener noreferrer">Paragraph</a>.
+    </p>
   </main>
 </Base>
+
+<style>
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  const root = document.querySelector(".essay-filter");
+  const input = document.querySelector<HTMLInputElement>("#essay-search");
+  const empty = document.querySelector<HTMLElement>("#essay-empty");
+  if (root && input) {
+    const items = [...root.querySelectorAll<HTMLElement>("li")];
+    const filter = () => {
+      const query = input.value.trim().toLowerCase();
+      let visible = 0;
+      for (const item of items) {
+        const hay = (item.dataset.search ?? "").toLowerCase();
+        const show = !query || hay.includes(query);
+        item.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (empty) empty.hidden = visible > 0;
+    };
+    input.addEventListener("input", filter);
+  }
+</script>

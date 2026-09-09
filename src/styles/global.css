@@ -255,6 +255,61 @@ body {
   margin: 1.25rem 0 0;
 }
 
+.more .sep {
+  margin: 0 0.45rem;
+  color: var(--line);
+}
+
+.draft-label {
+  margin: 0 0 0.7rem;
+  color: var(--accent);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.writing .draft-label {
+  margin-top: -0.55rem;
+}
+
+.search {
+  display: block;
+  margin: 0 0 0.35rem;
+}
+
+.search input {
+  width: 100%;
+  padding: 0.45rem 0 0.55rem;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  border-radius: 0;
+}
+
+.search input:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+
+.search-empty {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.post-list li[hidden] {
+  display: none;
+}
+
 .source {
   margin: 3rem 0 0;
   font-size: 0.92rem;

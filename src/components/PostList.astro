@@ -1,8 +1,8 @@
 ---
-import { formatDate, type Post } from "../lib/posts";
+import { formatDate, type Essay } from "../lib/posts";
 
 interface Props {
-  posts: Post[];
+  posts: Essay[];
 }
 
 const { posts } = Astro.props;
@@ -11,12 +11,12 @@ const { posts } = Astro.props;
 <ol class="post-list">
   {
     posts.map((post) => (
-      <li>
+      <li data-search={`${post.title} ${post.blurb}`}>
         <time datetime={post.date}>{formatDate(post.date)}</time>
         <a href={post.url} rel="noopener noreferrer">
           {post.title}
         </a>
-        {post.description ? <p>{post.description}</p> : null}
+        {post.blurb ? <p>{post.blurb}</p> : null}
       </li>
     ))
   }

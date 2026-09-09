@@ -13,13 +13,13 @@ Non-devs can change words in `content/` without touching layouts:
 - `content/work.json` — home work links
 - `content/background.md` — bio paragraphs
 - `content/cv.json` — education and experience (public CV only; Dean STEC is current)
-- `content/writing.json` — writing intro and subscribe links
-- `content/posts.json` — generated Paragraph list (refresh with `npm run ingest`)
+- `content/writing.json` — writing intro, search, and subscribe links
+- `content/essays.json` — DRAFT provisional shortlist (~20). Set `draft: false` when Nye names the final set.
 - `content/meta.json` — document title and description
 
-## Writing ingest
+## Writing
 
-`npm run build` fetches Paragraph RSS plus the paginated public posts API and writes `content/posts.json` (title, date, url, short description). If the network is down, the build uses the cached file. Full essays stay on Paragraph.
+The published list is the curated set in `content/essays.json`, not a full RSS dump. Essays link out to Paragraph, Mirror, or the archive. `/writing` has a tiny client-side filter over titles and blurbs. The rest of the weekly archive stays on Paragraph.
 
 ## Ship
 

@@ -2,12 +2,12 @@
 import Base from "../layouts/Base.astro";
 import PostList from "../components/PostList.astro";
 import { loadSite } from "../lib/site";
-import { loadPosts, loadWriting } from "../lib/posts";
+import { loadEssays, loadEssaysFile, loadWriting } from "../lib/posts";
 
 const site = loadSite();
 const writing = loadWriting();
-const posts = loadPosts();
-const recent = posts.slice(0, writing.homeCount);
+const essaysFile = loadEssaysFile();
+const recent = loadEssays().slice(0, writing.homeCount);
 const closer = site.ethos.items.at(-1) ?? "";
 const ethosItems = site.ethos.items.slice(0, -1);
 ---
@@ -44,12 +44,17 @@ const ethosItems = site.ethos.items.slice(0, -1);
 
     <section class="section writing" aria-labelledby="writing-heading">
       <h2 id="writing-heading" class="kicker">{writing.heading}</h2>
+      <p class="draft-label">{essaysFile.label}</p>
       {
         recent.length ? (
           <>
             <PostList posts={recent} />
             <p class="more">
               <a href="/writing">{writing.allLabel}</a>
+              <span class="sep">·</span>
+              <a href={writing.subscribeHref} rel="noopener noreferrer">
+                Paragraph
+              </a>
             </p>
           </>
         ) : (

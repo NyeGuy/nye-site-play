@@ -1,19 +1,23 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import essaysFile from "../../content/essays.json";
 import writing from "../../content/writing.json";
 
-export type Post = {
+export type Essay = {
   title: string;
   date: string;
   url: string;
-  description: string;
+  blurb: string;
 };
 
-export type PostsFile = {
-  fetchedAt?: string;
-  source?: string;
-  sources?: string[];
-  posts?: Post[];
+export type EssaysFile = {
+  draft: boolean;
+  label: string;
+  note: string;
+  source: {
+    label: string;
+    href: string;
+  };
+  archiveHref: string;
+  essays: Essay[];
 };
 
 const MONTHS = [
@@ -31,26 +35,22 @@ const MONTHS = [
   "Dec",
 ];
 
-const CACHE = join(process.cwd(), "content/posts.json");
+export function loadEssaysFile(): EssaysFile {
+  return essaysFile;
+}
 
-export function loadPosts(): Post[] {
-  try {
-    const file = JSON.parse(readFileSync(CACHE, "utf8")) as PostsFile;
-    const posts = Array.isArray(file.posts) ? file.posts : [];
-    return posts
-      .filter((post) => post.title && post.url)
-      .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
-  } catch {
-    return [];
-  }
+export function loadEssays(): Essay[] {
+  return (essaysFile.essays ?? []).filter((essay) => essay.title && essay.url);
 }
 
 export function loadWriting() {
   return writing;
 }
 
-export function formatDate(iso: string): string {
-  const [year, month, day] = iso.split("-").map((part) => Number(part));
-  if (!year || !month || !day) return iso;
+export function formatDate(value: string): string {
+  if (/^\d{4}$/.test(value)) return value;
+  const [year, month, day] = value.split("-").map((part) => Number(part));
+  if (!year || !month) return value;
+  if (!day) return `${MONTHS[month - 1]} ${year}`;
   return `${MONTHS[month - 1]} ${day}, ${year}`;
 }

@@ -11,7 +11,9 @@ This is Nye Warburton’s personal brand site. Keep it fast, typography-first, a
 - Stay typography-first, grey, quiet. No chrome, no marketing fluff.
 - Use facts already in the brief or `content/`. No invented CV, dates, titles, employers, awards, people, logos, or photos.
 - Keep Satellite Lab / STEC lab marketing out of this repo.
-- Link essays out to Paragraph. Do not mirror full essay HTML.
+- Keep writing as a curated ~20 shortlist in `content/essays.json` (DRAFT until Nye names it). Do not ship a full RSS dump as the published list.
+- Link essays out to Paragraph, Mirror, or the archive. Do not mirror full essay HTML.
+- Do not invent essay titles or rankings.
 - Treat Dean of STEC at SCAD as the current title. Earlier SCAD titles stay as history from the public CV.
 
 ## Do not
