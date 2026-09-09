@@ -179,6 +179,238 @@ body {
   margin-bottom: 0;
 }
 
+.page-wide {
+  --measure: 44rem;
+}
+
+.page-head {
+  margin-bottom: 2.75rem;
+}
+
+.page-head h1 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.crumb {
+  margin: 0 0 1.5rem;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  font-size: 0.85rem;
+}
+
+.crumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.crumb a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.subscribe {
+  margin: 1.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.subscribe .sep {
+  margin: 0 0.45rem;
+  color: var(--line);
+}
+
+.subscribe a,
+.more a,
+.source a,
+.post-list a,
+.work-list a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  text-underline-offset: 0.18em;
+}
+
+.subscribe a:hover,
+.more a:hover,
+.source a:hover,
+.post-list a:hover {
+  text-decoration-color: var(--ink);
+}
+
+.subscribe .quiet,
+.source {
+  color: var(--muted);
+}
+
+.more {
+  margin: 1.25rem 0 0;
+}
+
+.more .sep {
+  margin: 0 0.45rem;
+  color: var(--line);
+}
+
+.draft-label {
+  margin: 0 0 0.7rem;
+  color: var(--accent);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.writing .draft-label {
+  margin-top: -0.55rem;
+}
+
+.search {
+  display: block;
+  margin: 0 0 0.35rem;
+}
+
+.search input {
+  width: 100%;
+  padding: 0.45rem 0 0.55rem;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  border-radius: 0;
+}
+
+.search input:focus {
+  outline: none;
+  border-bottom-color: var(--ink);
+}
+
+.search-empty {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.post-list li[hidden] {
+  display: none;
+}
+
+.source {
+  margin: 3rem 0 0;
+  font-size: 0.92rem;
+}
+
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-list li {
+  margin: 0;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.post-list li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.post-list time {
+  display: block;
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post-list a {
+  font-size: 1.12rem;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.post-list p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.cv-section {
+  margin: 0 0 2.75rem;
+}
+
+.cv-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-row {
+  display: grid;
+  grid-template-columns: 8.75rem minmax(0, 1fr);
+  gap: 0.2rem 1.25rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.cv-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.when {
+  color: var(--muted);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+}
+
+.cv-title,
+.cv-org,
+.cv-note {
+  margin: 0;
+}
+
+.cv-title {
+  line-height: 1.35;
+}
+
+.cv-org,
+.cv-note {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 @media (max-width: 40rem) {
   body {
     font-size: 1.0625rem;
@@ -196,5 +428,10 @@ body {
 
   .role {
     margin-bottom: 2rem;
+  }
+
+  .cv-row {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
   }
 }

@@ -1,0 +1,23 @@
+---
+import { formatDate, type Essay } from "../lib/posts";
+
+interface Props {
+  posts: Essay[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ol class="post-list">
+  {
+    posts.map((post) => (
+      <li data-search={`${post.title} ${post.blurb}`}>
+        <time datetime={post.date}>{formatDate(post.date)}</time>
+        <a href={post.url} rel="noopener noreferrer">
+          {post.title}
+        </a>
+        {post.blurb ? <p>{post.blurb}</p> : null}
+      </li>
+    ))
+  }
+</ol>

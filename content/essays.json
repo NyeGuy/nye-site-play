@@ -1,0 +1,132 @@
+{
+  "draft": true,
+  "label": "DRAFT provisional shortlist",
+  "note": "Provisional shortlist until Nye names the exact ~20. Titles, blurbs, and links are from the public writing archive (and a corrected URL only where that archive link is broken or duplicated). Not a ranking.",
+  "source": {
+    "label": "Public writing archive",
+    "href": "https://nyewarburton.com/writing/"
+  },
+  "archiveHref": "https://paragraph.com/@nyewarburton.eth",
+  "essays": [
+    {
+      "title": "Artificial Intelligence: A Primer for graphics artists and educators",
+      "date": "2023-06-30",
+      "url": "https://nyewarburton.com/2023/06/30/artificial-intelligence-a-primer-for-graphics-artists-and-educators/",
+      "blurb": "A summation of my presentation given at Savannah College of Art and Design in the Spring of 2023."
+    },
+    {
+      "title": "To Teach or Not to Teach Artificial Intelligence",
+      "date": "2022",
+      "url": "https://mirror.xyz/nyewarburton.eth/XXjQvIeQQ4dWyOkcs0qf-4U2aB3RoCRLW41eQFJFIeQ",
+      "blurb": "Can we open the debate in a way that best helps the students, and limits the potential for academic dishonesty?"
+    },
+    {
+      "title": "Protecting Artists from Centralized AI",
+      "date": "2022",
+      "url": "https://mirror.xyz/nyewarburton.eth/GGucq3fr3POdYTzFtMzpy7ST0hICYFn2RK8BE_kViPM",
+      "blurb": "If we are to defend our creative data from being sucked into large centralized AI models, we may need a new ethos of behavior."
+    },
+    {
+      "title": "Discovering Disco Diffusion and Prompt Design",
+      "date": "2022-07-15",
+      "url": "https://nyewarburton.com/2022/07/15/discovering-disco-diffusion-and-prompt-design/",
+      "blurb": "Documenting my first couple of days with DiscoDiffusion (July 2022)."
+    },
+    {
+      "title": "Gamifying Reputation",
+      "date": "2022",
+      "url": "https://mirror.xyz/nyewarburton.eth/iVOc6nkbPrWOK--bKctMpQZ9z7yBZKDnSkoEoA8w2ls",
+      "blurb": "We’ve spent a decade gamifying engagement in education, work and health. Empty points are short-term dopamine hit."
+    },
+    {
+      "title": "Interoperable Storytelling",
+      "date": "2022",
+      "url": "https://mirror.xyz/nyewarburton.eth/ED5M6MoSOhxaruT9rhW5Obpv6Rmjz-l4wkb3QeDH4lg",
+      "blurb": "The more modular our content becomes, the greater the potential for infinite, hyper-personal, storytelling."
+    },
+    {
+      "title": "Royalties, Attribution and the Blockchain",
+      "date": "2022",
+      "url": "https://paragraph.com/@nyewarburton.eth/royalties,-attribution-and-the-blockchain",
+      "blurb": "Digital Artists are rarely rewarded with intellectual property ownership. The blockchain may provide an alternative."
+    },
+    {
+      "title": "AI University",
+      "date": "2022",
+      "url": "https://mirror.xyz/nyewarburton.eth/oLCJiyqUIC-UfvDi3i7VFzOCGgOcIXZjRUqb9OKtW90",
+      "blurb": "The three components of a persistent, credentialed, global education network."
+    },
+    {
+      "title": "Which Game Engine Should I Use?",
+      "date": "2022-02-18",
+      "url": "https://nyewarburton.com/2022/02/18/which-game-engine-should-i-use/",
+      "blurb": "By far, this is the most asked question I get. Here are my thoughts of the current engine world."
+    },
+    {
+      "title": "The Five Rules of Ghengis Kahn",
+      "date": "2021",
+      "url": "https://nyewarburton.com/2022/02/12/the-five-rules-of-genghis-kahn/",
+      "blurb": "A review and summation of a book about the greatest military strategist to ever live."
+    },
+    {
+      "title": "Seven Strategic Tactics for Teaching Online",
+      "date": "2021",
+      "url": "https://nyewarburton.com/2022/02/27/seven-strategic-tactics-for-teaching-online/",
+      "blurb": "An aggregation of findings after spending a year on zoom teaching college level computer graphics."
+    },
+    {
+      "title": "The Democratization of Animated Production",
+      "date": "2020-03-17",
+      "url": "https://nyewarburton.com/2020/03/17/nytrogen-01-introduction/",
+      "blurb": "My hypothesis of how production will be distributed in open networks."
+    },
+    {
+      "title": "Keys & State Machines",
+      "date": "2020-03-17",
+      "url": "https://nyewarburton.com/2020/03/17/nytrogen-03-keys-state-machines/",
+      "blurb": "Design patterns for character animation are becoming much more complex."
+    },
+    {
+      "title": "Optimization & Leverage",
+      "date": "2020-03-17",
+      "url": "https://nyewarburton.com/2020/03/17/nytrogen-02-optimization-leverage/",
+      "blurb": "Real Time animation production should start with a change in mindset."
+    },
+    {
+      "title": "Machine Learning and Animation",
+      "date": "2020-03-17",
+      "url": "https://nyewarburton.com/2020/03/17/nytrogen-04-machine-learning-and-animation/",
+      "blurb": "As the tools become more accessible, neural networks may soon be driving the performance of characters."
+    },
+    {
+      "title": "Discovering Machine Learning Art Production with RunwayML",
+      "date": "2020-04-20",
+      "url": "https://nyewarburton.com/2020/04/20/nytrogen-discovering-machine-learning-art-production/",
+      "blurb": "Thoughts about learning machine learning in Derek Shultz’ “Machine Learning for Imagemakers” class."
+    },
+    {
+      "title": "Blockchains and Animated Production",
+      "date": "2020-04-06",
+      "url": "https://nyewarburton.com/2020/04/06/nytrogen-11-blockchains-and-animated-production/",
+      "blurb": "Some thoughts about understanding the value of blockchains in production."
+    },
+    {
+      "title": "The Ants go Marching Open Source",
+      "date": "2020-03-27",
+      "url": "https://nyewarburton.com/2020/03/27/nytrogen-09-the-ants-go-marching-open-source/",
+      "blurb": "Coming to a realization that great ideas can’t be kept under lock and key."
+    },
+    {
+      "title": "Yang Gang – Putting Andrew Yangs Essence into AI",
+      "date": "2020-06-16",
+      "url": "https://nyewarburton.com/2020/06/16/nytrogen-yanggan-how-i-put-andrew-yangs-essence-into-ai/",
+      "blurb": "Information relating to the development of my YangGAN project."
+    },
+    {
+      "title": "Artists Painting with Artificial Intelligence",
+      "date": "2020-03-17",
+      "url": "https://nyewarburton.com/2020/03/17/nytrogen-07-painting-with-ai/",
+      "blurb": "NVidia’s Segmentation map painting might lead to some interesting artistic work."
+    }
+  ]
+}

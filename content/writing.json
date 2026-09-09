@@ -1,0 +1,13 @@
+{
+  "heading": "Writing",
+  "homeCount": 5,
+  "allLabel": "Draft shortlist",
+  "intro": "A DRAFT provisional shortlist from the public writing archive — not a ranking. Nye still names the final ~20. Full pieces live on Paragraph, Mirror, or the archive.",
+  "subscribeLabel": "All essays on Paragraph",
+  "subscribeHref": "https://paragraph.com/@nyewarburton.eth",
+  "secondaryLabel": "Substack",
+  "secondaryHref": "https://nyewarburton.substack.com",
+  "searchLabel": "Search titles and blurbs",
+  "searchEmpty": "No essays match.",
+  "empty": "The shortlist could not be loaded. Read the essays on Paragraph."
+}

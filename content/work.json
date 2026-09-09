@@ -2,16 +2,20 @@
   "heading": "Work",
   "links": [
     {
+      "label": "Writing",
+      "href": "/writing"
+    },
+    {
+      "label": "CV",
+      "href": "/cv"
+    },
+    {
       "label": "Paragraph",
       "href": "https://paragraph.com/@nyewarburton.eth"
     },
     {
       "label": "Substack",
       "href": "https://nyewarburton.substack.com"
-    },
-    {
-      "label": "Writing",
-      "href": "https://nyewarburton.com/writing/"
     },
     {
       "label": "Book",
