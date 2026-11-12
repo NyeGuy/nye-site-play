@@ -122,4 +122,4 @@ window.THREAD_BY_SLUG = {
 "childhoods-end": "personal"
 };
 window.THREAD_BY_SLUG["the-civic-technologist"] = "robotics";
-window.BOOK_PROJECTS = ["Decentralization", "Machine Commons", "Learning Networks", "Gravity and Slack", "NDL Volume 2"];
+window.BOOK_PROJECTS = ["Decentralization and other Essays: Nye's Digital Lab Volume 2, 2026"];

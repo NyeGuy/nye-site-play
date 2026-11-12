@@ -26,8 +26,8 @@ export function booksPage(sel) {
         <div class="buy">${b.buy.map((l, i) => `<a class="btn ${i === 0 ? "primary" : ""}" href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}<small>${esc(l.note)}</small></a>`).join("")}
           ${b.missing.map(m => `<span class="btn placeholder" title="Placeholder — open question">${esc(m.label)}<small>${esc(m.note)}</small></span>`).join("")}</div>
       </div></div>
-    <div class="projects"><p class="kicker">In the works · coming soon</p><h2>Next books</h2>
-      <p class="projects-note">Five book projects in progress. Titles are working titles; order and dates to come.</p>
+    <div class="projects"><p class="kicker">In the works · coming soon</p><h2>Next book</h2>
+      <p class="projects-note">Coming soon.</p>
       <ul class="spines">${window.BOOK_PROJECTS.map((t, i) => `<li><a class="spine ${sel === String(i) ? "is-sel" : ""}" href="#/books/${i}" data-next="${i}"><span class="spine-n">0${i + 1}</span><b>${esc(t)}</b><small>Coming soon</small></a></li>`).join("")}</ul>
       <a class="btn" href="https://paragraph.com/@nyewarburton.eth/subscribe" target="_blank" rel="noopener">Subscribe on Paragraph<small>Hear first</small></a></div>
   </section>`;

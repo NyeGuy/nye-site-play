@@ -22,7 +22,7 @@ That's why it runs at `https://<user>.github.io/<repo>/` (GitHub Pages project p
 | `#/year/2025` | Shortcut for a year filter |
 | `#/post/<slug>` | An essay, e.g. `#/post/a-love-letter-to-the-commodore-64` |
 | `#/cv` | CV (`?notes=1#/cv` shows the source for every line and the "confirm" flags) |
-| `#/books`, `#/books/2` | Books; `/n` selects one of the five coming-soon titles |
+| `#/books`, `#/books/0` | Books; `/0` selects the one coming-soon title |
 
 Query flags: `?offline=1` forces the snapshot, `?notes=1` shows CV sources, `?scan=<url>` tries a glTF/GLB scan.
 
@@ -48,7 +48,7 @@ current filter when the essay is in it.
   then full HTML in the background for full-text search. If the API fails (9 s timeout, network or CORS), it loads
   `data/posts-snapshot.json` (all 105 posts, 2026-11-11) and the top bar shows an amber "Snapshot" badge. Refresh the
   snapshot from this folder with `python3 data/fetch_snapshot.py`.
-- `js/threads.js`: the eight themes (curated from Nye's essay list, plus Robotics & Simulation and Games) and the five coming-soon book titles.
+- `js/threads.js`: the eight themes (curated from Nye's essay list, plus Robotics & Simulation and Games) and the one coming-soon book title.
 - `js/site-data.js`: profile, CV (each line keeps its source key and any "confirm" flag) and the book with verified buy links.
 
 ## 3D scan hook

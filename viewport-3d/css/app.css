@@ -174,7 +174,7 @@ body:not([data-route=home]) .mini{display:block}
 .buy{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
 .projects{border-top:1px solid var(--line);padding-top:24px}
 .projects h2{margin:0 0 .4rem;font-weight:600}.projects-note{color:var(--muted);font-size:.9rem}
-.spines{list-style:none;margin:16px 0 20px;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.spines{list-style:none;margin:16px 0 20px;padding:0;display:grid;grid-template-columns:minmax(0,36rem);gap:10px}
 .spine{display:flex;flex-direction:column;gap:.5rem;min-height:170px;padding:14px;border:1px dashed #4a4f58;border-radius:6px;text-decoration:none;background:var(--panel)}
 .spine:hover,.spine.is-sel{border-color:var(--accent);border-style:solid;background:var(--sel)}
 .spine-n{font:.7rem var(--mono);color:var(--accent)}.spine b{font-weight:600;flex:1}.spine small{font:.7rem var(--mono);color:var(--muted)}
@@ -203,7 +203,7 @@ body:not([data-route=home]) .mini{display:block}
   .page{padding:24px 18px 60px}.post{padding:20px 18px 60px;font-size:1.1rem}
   .cv-sec{grid-template-columns:1fr;gap:8px}.cv-sec li{grid-template-columns:1fr;gap:.1rem}
   .book{grid-template-columns:1fr}.book .cover{max-width:220px}
-  .spines{grid-template-columns:repeat(2,1fr)}
+  .spines{grid-template-columns:minmax(0,1fr)}
   .rows a{grid-template-columns:1fr}.rows time{grid-row:auto}
   body[data-route=home] .inspector .pane-h{border-top:1px solid var(--line)}
 }
