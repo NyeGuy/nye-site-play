@@ -313,6 +313,18 @@ async function render() {
   const t = { home: "Scene", blog: "Writing", post: Posts.bySlug[route.arg]?.title || "Essay", cv: "CV", books: "Books" }[route.name];
   document.title = `${t} — Nye Warburton · Viewport`;
   if (route.name === "post") doc.focus({ preventScroll: true });
+  // Scene (and any return home) puts the big viewport back on screen. On a narrow
+  // window the page scrolls, so the sim sits above wherever the reader had scrolled.
+  if (route.name === "home" && prev !== "home") {
+    const toTop = () => {
+      window.scrollTo(0, 0);
+      const root = document.scrollingElement;
+      if (root) root.scrollTop = 0;
+    };
+    toTop();
+    requestAnimationFrame(toTop);
+    vp?.canvas?.focus({ preventScroll: true });
+  }
 }
 
 /* ---------------- Keyboard ---------------- */
