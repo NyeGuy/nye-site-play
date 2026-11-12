@@ -293,9 +293,18 @@ function syncScene({ focus = true } = {}) {
 
 /* ---------------- Render ---------------- */
 let renderSeq = 0;
+// On a phone the window scrolls; the desktop reader column (#doc) and inspector scroll on their own.
+// A route change used to leave whichever of those was in use where it was, so the next view opened mid-content.
+function pageToTop() {
+  window.scrollTo(0, 0);
+  const root = document.scrollingElement;
+  if (root) root.scrollTop = 0;
+  const doc = $("#doc"); if (doc) doc.scrollTop = 0;
+  const insp = $(".inspector"); if (insp) insp.scrollTop = 0;
+}
 async function render() {
   const seq = ++renderSeq;
-  const prev = route.name;
+  const prev = route.name, prevArg = route.arg;
   Object.assign(route, parse());
   document.body.dataset.route = route.name;
   if (vp) vp.mount(route.name === "home" ? $("#vp-main") : $("#vp-mini"));
@@ -307,23 +316,18 @@ async function render() {
   else if (route.name === "cv") html = cvPage();
   else if (route.name === "books") html = booksPage(route.arg ?? "current");
   if (seq !== renderSeq) return;
-  if (route.name !== "home") { doc.innerHTML = html; if (!(prev === "blog" && route.name === "blog")) doc.scrollTop = 0; }
+  const keepScroll = prev === "blog" && route.name === "blog"; // filters stay put inside Writing
+  const viewChanged = prev !== route.name || prevArg !== route.arg;
+  if (route.name !== "home") { doc.innerHTML = html; if (!keepScroll) doc.scrollTop = 0; }
   cursor = -1;
   refreshLists(); renderInspector(); status(); renderConsole(); syncScene();
   const t = { home: "Scene", blog: "Writing", post: Posts.bySlug[route.arg]?.title || "Essay", cv: "CV", books: "Books" }[route.name];
   document.title = `${t} — Nye Warburton · Viewport`;
   if (route.name === "post") doc.focus({ preventScroll: true });
-  // Scene (and any return home) puts the big viewport back on screen. On a narrow
-  // window the page scrolls, so the sim sits above wherever the reader had scrolled.
-  if (route.name === "home" && prev !== "home") {
-    const toTop = () => {
-      window.scrollTo(0, 0);
-      const root = document.scrollingElement;
-      if (root) root.scrollTop = 0;
-    };
-    toTop();
-    requestAnimationFrame(toTop);
-    vp?.canvas?.focus({ preventScroll: true });
+  if (viewChanged && !keepScroll) {
+    pageToTop();
+    requestAnimationFrame(pageToTop);
+    if (route.name === "home") vp?.canvas?.focus({ preventScroll: true });
   }
 }
 
@@ -361,5 +365,6 @@ Posts.ready.then(() => {
   syncScene({ focus: false });
 });
 document.addEventListener("posts:content", () => { status(); if (vp) vp.setPosts(Posts.list, p => window.THREAD_BY_SLUG[p.slug] || p.themes[0], p => readMins(p) || 4); syncScene({ focus: false }); if (route.name === "blog" && state.q) renderResults(); log("full text loaded · search covers essay bodies"); });
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 window.addEventListener("hashchange", render);
 render();
