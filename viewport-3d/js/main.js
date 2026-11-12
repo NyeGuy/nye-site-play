@@ -2,7 +2,6 @@
 import { Posts, state, filtered, esc, fmtDate, THEMES, themeById, themeLabel, ensureContent, cleanHtml, readMins, titleHit, mark, years, countTheme, params } from "./data.js";
 import { cvPage, booksPage } from "./pages.js";
 import { createViewport } from "./scene.js";
-import * as CX from "./comics.js";
 
 const S = window.SITE, BOOKS = window.BOOKS, PAR = S.paragraph;
 const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -13,7 +12,7 @@ let vp = null;
 
 /* ---------------- Viewport ---------------- */
 try {
-  vp = createViewport({ themes: [...THEMES.slice(0, 2), { id: "comics", label: "NyeToon Comics", color: CX.COMIC_COLOR }, ...THEMES.slice(2)], comics: window.COMICS, avatarUrl: S.avatar, bookCoverUrl: BOOKS.current.cover, bookProjects: window.BOOK_PROJECTS });
+  vp = createViewport({ themes: THEMES, avatarUrl: S.avatar, bookCoverUrl: BOOKS.current.cover, bookProjects: window.BOOK_PROJECTS });
   const scan = params.get("scan") || (window.NYE_SCAN && window.NYE_SCAN.url);
   if (scan) vp.loadScan(scan, window.NYE_SCAN || {}).then(() => log(`scan loaded: ${scan}`)).catch(e => log(`scan failed (${e.message}); keeping cartoon`, "warn"));
 } catch (e) {
@@ -31,8 +30,7 @@ function parse() {
   if (name === "theme") { state.theme = arg || "all"; state.q = ""; }
   if (name === "search") { state.q = arg || ""; }
   if (name === "year") { state.year = arg || "all"; }
-  let n = { "": "home", home: "home", blog: "blog", theme: "blog", search: "blog", year: "blog", post: "post", cv: "cv", books: "books", comics: "comics" }[name] || "home";
-  if (n === "comics" && arg) n = "comic";
+  const n = { "": "home", home: "home", blog: "blog", theme: "blog", search: "blog", year: "blog", post: "post", cv: "cv", books: "books" }[name] || "home";
   return { name: n, arg };
 }
 export function blogHash(st = state) {
@@ -53,18 +51,17 @@ function shell() {
   app.innerHTML = `
   <header class="topbar">
     <a class="brand" href="#/"><img src="${S.avatar}" alt=""><span>${esc(S.name)}</span></a>
-    <nav class="tabs" aria-label="Primary">${[["home", "#/", "Scene"], ["blog", "#/blog", "Writing"], ["comics", "#/comics", "Comics"], ["cv", "#/cv", "CV"], ["books", "#/books", "Books"]].map(([k, h, l]) => `<a href="${h}" data-tab="${k}">${l}</a>`).join("")}</nav>
-    <label class="gsearch"><span class="sr">Search essays and comics</span><input id="q" type="search" placeholder="Search essays and comics…  /" autocomplete="off" spellcheck="false"></label>
+    <nav class="tabs" aria-label="Primary">${[["home", "#/", "Scene"], ["blog", "#/blog", "Writing"], ["cv", "#/cv", "CV"], ["books", "#/books", "Books"]].map(([k, h, l]) => `<a href="${h}" data-tab="${k}">${l}</a>`).join("")}</nav>
+    <label class="gsearch"><span class="sr">Search essays</span><input id="q" type="search" placeholder="Search essays…  /" autocomplete="off" spellcheck="false"></label>
     <span id="status" class="status"></span>
     <button class="ol-toggle" id="ol-toggle" aria-controls="outliner" aria-expanded="false">Outliner</button>
   </header>
   <aside class="outliner" id="outliner" aria-label="Outliner">
     <div class="pane-h">Outliner</div>
     <ul class="tree" id="tree"></ul>
-    <div class="pane-h sub ol-writing">Year</div><div class="years ol-writing" id="years"></div>
-    <div class="pane-h sub ol-writing"><span id="list-h">Essays</span><button class="link" id="sort"></button></div>
-    <ol class="elist ol-writing" id="elist"></ol>
-    <a class="ol-comics ol-writing" href="#/comics"><i class="dot" style="background:${CX.COMIC_COLOR}"></i>Comics · NyeToon<em>${CX.stats.chapters} ch</em></a>
+    <div class="pane-h sub">Year</div><div class="years" id="years"></div>
+    <div class="pane-h sub"><span id="list-h">Essays</span><button class="link" id="sort"></button></div>
+    <ol class="elist" id="elist"></ol>
   </aside>
   <main class="stage" id="stage">
     <div class="viewport" id="vp-main" aria-label="3D viewport">
@@ -110,13 +107,13 @@ function bindShell() {
   });
   // Hovering a list row lights up its block in the scene
   app.addEventListener("pointerover", e => {
-    if (!vp) return; const a = e.target.closest("[data-slug],[data-theme-id],[data-comic]");
-    if (a) a.dataset.comic ? vp.highlight("comic", a.dataset.comic) : a.dataset.slug ? vp.highlight("essay", a.dataset.slug) : vp.highlight("theme", a.dataset.themeId); else vp.highlight(null);
+    if (!vp) return; const a = e.target.closest("[data-slug],[data-theme-id]");
+    if (a) a.dataset.slug ? vp.highlight("essay", a.dataset.slug) : vp.highlight("theme", a.dataset.themeId); else vp.highlight(null);
   });
   if (vp) {
     vp.onPick(d => {
       if (!d) return;
-      const go = { comic: `#/comics/${d.id}`, theme: d.id === "comics" ? "#/comics" : `#/theme/${d.id}`, essay: `#/post/${encodeURIComponent(d.id)}`, book: "#/books", next: `#/books/${d.id}`, cv: "#/cv", avatar: "#/" }[d.kind];
+      const go = { essay: `#/post/${encodeURIComponent(d.id)}`, theme: `#/theme/${d.id}`, book: "#/books", next: `#/books/${d.id}`, cv: "#/cv", avatar: "#/" }[d.kind];
       if (d.kind === "avatar" && route.name === "home") { vp.select("avatar", "nye"); renderInspector("avatar"); return; }
       log(`select ${d.kind}:${d.id}`);
       if (go) location.hash = go;
@@ -125,21 +122,17 @@ function bindShell() {
       const tip = $("#tip"); if (!tip) return;
       if (!d || !e) { tip.hidden = true; return; }
       const host = tip.parentElement.getBoundingClientRect();
-      const p = d.kind === "essay" ? Posts.bySlug[d.id] : null, cc = d.kind === "comic" ? CX.bySlug[d.id] : null;
-      tip.innerHTML = cc ? `<b>${esc(cc.title)}</b><span>Comics · ${esc(CX.seriesOf(cc.series).label)} · ${cc.pages.length} pages</span>` : p ? `<b>${esc(p.title)}</b><span>${fmtDate(p.publishedAt)} · ${esc(themeLabel(p.themes[0]))}</span>` : `<b>${esc(d.label)}</b><span>${{ theme: "Theme · click to filter", book: "Book · click to open", next: "Coming soon", cv: "CV · click to open", avatar: "Nye" }[d.kind] || ""}</span>`;
+      const p = d.kind === "essay" ? Posts.bySlug[d.id] : null;
+      tip.innerHTML = p ? `<b>${esc(p.title)}</b><span>${fmtDate(p.publishedAt)} · ${esc(themeLabel(p.themes[0]))}</span>` : `<b>${esc(d.label)}</b><span>${{ theme: "Theme · click to filter", book: "Book · click to open", next: "Coming soon", cv: "CV · click to open", avatar: "Nye" }[d.kind] || ""}</span>`;
       tip.style.left = Math.min(e.clientX - host.left + 14, host.width - 260) + "px"; tip.style.top = (e.clientY - host.top + 14) + "px"; tip.hidden = false;
     });
-    vp.onFps(fps => { const s = $("#hud-stats"); if (s) s.textContent = `${Posts.list.length} essays · ${THEMES.length + 1} themes · ${fps} fps`; });
+    vp.onFps(fps => { const s = $("#hud-stats"); if (s) s.textContent = `${Posts.list.length} essays · ${THEMES.length} themes · ${fps} fps`; });
   }
 }
 
 /* ---------------- Outliner ---------------- */
 function refreshLists() {
   const tree = $("#tree");
-  const isComics = route.name === "comics" || route.name === "comic";
-  $$(".ol-writing").forEach(e => e.hidden = isComics);
-  $$(".tabs a").forEach(a => a.toggleAttribute("aria-current", a.dataset.tab === ({ post: "blog", comic: "comics" }[route.name] || route.name)));
-  if (isComics) { tree.innerHTML = CX.tree(route); const on = $("#tree a.on"); if (on) on.scrollIntoView({ block: "nearest" }); return; }
   tree.innerHTML = `<li class="root"><a href="#/" data-kind="avatar" class="${route.name === "home" ? "on" : ""}">▾ <b>scene: nye_warburton</b></a></li>
     <li><a href="${blogHash({ ...state, theme: "all" })}" data-set-theme="all" class="${state.theme === "all" ? "on" : ""}"><i class="dot all"></i>All themes<em>${Posts.list.length}</em></a></li>
     ${THEMES.map(t => `<li><a href="#/theme/${t.id}" data-set-theme="${t.id}" data-theme-id="${t.id}" class="${state.theme === t.id ? "on" : ""}"><i class="dot" style="background:${t.color}"></i>${esc(t.label)}<em>${countTheme(t.id)}</em></a></li>`).join("")}
@@ -155,6 +148,7 @@ function refreshLists() {
   $("#elist").innerHTML = arr.map(p => `<li><a href="#/post/${encodeURIComponent(p.slug)}" data-slug="${esc(p.slug)}" class="${p.slug === cur ? "on" : ""}" style="--tc:${themeById(p.themes[0]).color}"><i></i><span>${mark(p.title, state.q)}</span><time>${fmtDate(p.publishedAt, { month: "short", year: "2-digit" })}</time></a></li>`).join("") || `<li class="empty">No essays match.</li>`;
   const on = $("#elist a.on"); if (on) on.scrollIntoView({ block: "nearest" });
   $("#q").value !== state.q && document.activeElement !== $("#q") && ($("#q").value = state.q);
+  $$(".tabs a").forEach(a => a.toggleAttribute("aria-current", a.dataset.tab === (route.name === "post" ? "blog" : route.name)));
   if (route.name === "blog") renderResults();
 }
 
@@ -170,8 +164,7 @@ function log(msg, lvl = "info") { logLines.unshift({ t: new Date(), msg, lvl });
 function renderConsole() {
   const el = $("#con"); if (!el) return;
   el.innerHTML = logLines.map(l => `<li class="log ${l.lvl}"><time>${l.t.toLocaleTimeString("en-US", { hour12: false })}</time><span class="lvl">${l.lvl.toUpperCase()}</span><span>${esc(l.msg)}</span></li>`).join("")
-    + `<li><a href="#/comics" class="con-comics"><time>2011 – 2018</time><span class="lvl" style="color:${CX.COMIC_COLOR}">COMICS</span><b>NyeToon · ${CX.stats.chapters} chapters, ${CX.stats.pages} pages</b><span class="sub">NyeToon, The Sanity Index, Floyd &amp; Norm</span></a></li>`
-    + Posts.list.slice(0, 7).map(p => { const t = themeById(p.themes[0]); return `<li><a href="#/post/${encodeURIComponent(p.slug)}" data-slug="${esc(p.slug)}"><time>${fmtDate(p.publishedAt, { year: "numeric", month: "2-digit", day: "2-digit" })}</time><span class="lvl" style="color:${t.color}">${t.short}</span><b>${esc(p.title)}</b><span class="sub">${esc(p.subtitle)}</span></a></li>`; }).join("");
+    + Posts.list.slice(0, 8).map(p => { const t = themeById(p.themes[0]); return `<li><a href="#/post/${encodeURIComponent(p.slug)}" data-slug="${esc(p.slug)}"><time>${fmtDate(p.publishedAt, { year: "numeric", month: "2-digit", day: "2-digit" })}</time><span class="lvl" style="color:${t.color}">${t.short}</span><b>${esc(p.title)}</b><span class="sub">${esc(p.subtitle)}</span></a></li>`; }).join("");
 }
 
 /* ---------------- Writing index (reader) ---------------- */
@@ -182,23 +175,16 @@ function blogDoc() {
     <div class="chips" role="group" aria-label="Theme"><button data-set-theme="all" aria-pressed="${state.theme === "all"}">All</button>${THEMES.map(t => `<button data-set-theme="${t.id}" aria-pressed="${state.theme === t.id}" style="--tc:${t.color}"><i></i>${esc(t.label)} <em>${countTheme(t.id)}</em></button>`).join("")}</div>
     <div id="results" class="results"></div></section>`;
 }
-function comicHits(q) {
-  const n = q.toLowerCase(); if (!n) return "";
-  const hits = CX.chapters.filter(c => (c.title + " " + CX.seriesOf(c.series).label).toLowerCase().includes(n)).slice(0, 8);
-  if (!hits.length) return "";
-  return `<h2 class="grp">Comics</h2><ul class="rows">${hits.map(c => `<li><a href="#/comics/${c.slug}" data-comic="${c.slug}"><time>Comic</time><span class="rt">${mark(c.title, q)}</span><span class="rs">${esc(CX.seriesOf(c.series).label)} · ${c.pages.length} pages</span></a></li>`).join("")}</ul>`;
-}
 function renderResults() {
   const el = $("#results"); if (!el) return;
   $$(".blog .chips button").forEach(b => b.setAttribute("aria-pressed", b.dataset.setTheme === state.theme));
   const arr = filtered(), q = state.q.trim();
-  const comics = comicHits(q);
   const row = (p, i) => `<li><a href="#/post/${encodeURIComponent(p.slug)}" data-slug="${esc(p.slug)}" data-i="${i}" style="--tc:${themeById(p.themes[0]).color}"><time>${fmtDate(p.publishedAt, { month: "short", day: "numeric", year: "numeric" })}</time><span class="rt">${mark(p.title, q)}</span><span class="rs">${mark(p.subtitle, q)}</span><span class="rth">${p.themes.map(themeLabel).join(" · ")}${readMins(p) ? ` · ${readMins(p)} min` : ""}</span></a></li>`;
-  if (!arr.length) { el.innerHTML = comics || `<p class="empty">No essays match${q ? ` “${esc(q)}”` : ""}. <button class="link" data-set-theme="all">Clear theme</button></p>`; return; }
+  if (!arr.length) { el.innerHTML = `<p class="empty">No essays match${q ? ` “${esc(q)}”` : ""}. <button class="link" data-set-theme="all">Clear theme</button></p>`; return; }
   let i = 0;
   if (q) {
     const strong = arr.filter(p => titleHit(p, q)), weak = arr.filter(p => !strong.includes(p));
-    el.innerHTML = comics + `<p class="count">${arr.length} essays · ${strong.length} with “${esc(q)}” in the title or tags · ${weak.length} mention it in the text${Posts.contentReady ? "" : " (full text still loading)"}</p>`
+    el.innerHTML = `<p class="count">${arr.length} essays · ${strong.length} with “${esc(q)}” in the title or tags · ${weak.length} mention it in the text${Posts.contentReady ? "" : " (full text still loading)"}</p>`
       + (strong.length ? `<h2 class="grp">In titles &amp; tags</h2><ul class="rows">${strong.map(p => row(p, i++)).join("")}</ul>` : "")
       + (weak.length ? `<h2 class="grp">Mentioned in the text</h2><ul class="rows">${weak.map(p => row(p, i++)).join("")}</ul>` : "");
   } else {
@@ -250,9 +236,7 @@ async function postDoc(slug) {
 function renderInspector(kind, id) {
   const el = $("#insp"); if (!el) return;
   if (!kind) {
-    if (route.name === "comic") { kind = "comic"; id = route.arg; }
-    else if (route.name === "comics") kind = "comics";
-    else if (route.name === "post") { kind = "essay"; id = route.arg; }
+    if (route.name === "post") { kind = "essay"; id = route.arg; }
     else if (route.name === "books") { kind = route.arg != null ? "next" : "book"; id = route.arg; }
     else if (route.name === "cv") kind = "cv";
     else if (route.name === "blog" && state.theme !== "all") { kind = "theme"; id = state.theme; }
@@ -260,7 +244,6 @@ function renderInspector(kind, id) {
     else kind = "avatar";
   }
   const dl = rows => `<dl>${rows.filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`;
-  if (kind === "comic" || kind === "comics") { el.innerHTML = CX.inspector(kind, id); return; }
   if (kind === "essay") {
     const p = Posts.bySlug[id]; if (!p) { el.innerHTML = ""; return; }
     const nb = neighbours(p);
@@ -298,13 +281,10 @@ function renderInspector(kind, id) {
 /* ---------------- Scene sync ---------------- */
 function syncScene({ focus = true } = {}) {
   if (!vp) return;
-  const r = route.name, isComics = r === "comics" || r === "comic";
-  const match = isComics ? new Set() : (state.q || state.theme !== "all" || state.year !== "all") ? new Set(filtered().map(p => p.slug)) : null;
-  vp.setFilter(match, isComics ? "comics" : state.theme);
-  vp.setComicsFocus(isComics || r === "home");
-  if (r === "comic") vp.select("comic", route.arg, { focus });
-  else if (r === "comics") vp.select("theme", "comics", { focus });
-  else if (r === "post") vp.select("essay", route.arg, { focus });
+  const match = (state.q || state.theme !== "all" || state.year !== "all") ? new Set(filtered().map(p => p.slug)) : null;
+  vp.setFilter(match, state.theme);
+  const r = route.name;
+  if (r === "post") vp.select("essay", route.arg, { focus });
   else if (r === "books") vp.select(route.arg != null ? "next" : "book", route.arg ?? "current", { focus });
   else if (r === "cv") vp.select("cv", "cv", { focus });
   else if (r === "blog" && state.theme !== "all") vp.select("theme", state.theme, { focus });
@@ -335,57 +315,21 @@ async function render() {
   else if (route.name === "post") html = await postDoc(route.arg);
   else if (route.name === "cv") html = cvPage();
   else if (route.name === "books") html = booksPage(route.arg ?? "current");
-  else if (route.name === "comics") html = CX.indexDoc();
-  else if (route.name === "comic") html = CX.readerDoc(route.arg);
   if (seq !== renderSeq) return;
   const keepScroll = prev === "blog" && route.name === "blog"; // filters stay put inside Writing
   const viewChanged = prev !== route.name || prevArg !== route.arg;
   if (route.name !== "home") { doc.innerHTML = html; if (!keepScroll) doc.scrollTop = 0; }
   cursor = -1;
   refreshLists(); renderInspector(); status(); renderConsole(); syncScene();
-  const t = { home: "Scene", blog: "Writing", post: Posts.bySlug[route.arg]?.title || "Essay", cv: "CV", books: "Books", comics: "Comics", comic: CX.bySlug[route.arg]?.title || "Comic" }[route.name];
+  const t = { home: "Scene", blog: "Writing", post: Posts.bySlug[route.arg]?.title || "Essay", cv: "CV", books: "Books" }[route.name];
   document.title = `${t} — Nye Warburton · Viewport`;
-  if (route.name === "comic") bindReader();
-  if (route.name === "post" || route.name === "comic") doc.focus({ preventScroll: true });
+  if (route.name === "post") doc.focus({ preventScroll: true });
   if (viewChanged && !keepScroll) {
     pageToTop();
     requestAnimationFrame(pageToTop);
     if (route.name === "home") vp?.canvas?.focus({ preventScroll: true });
   }
 }
-
-/* ---------------- Comic reader: page tracking + prev/next ---------------- */
-let curPage = 1;
-function pagesEls() { return $$(".comic .pg"); }
-function trackPage() {
-  const els = pagesEls(); if (!els.length) return;
-  const line = innerHeight * 0.45; let k = 1;
-  els.forEach((el, i) => { if (el.getBoundingClientRect().top < line) k = i + 1; });
-  if (k !== curPage) curPage = k;
-  const pos = $("#cb-pos"); if (pos) pos.textContent = `${curPage} / ${els.length}`;
-  const next = $('[data-cpage="1"] span'), prev = $('[data-cpage="-1"] span');
-  if (next) next.textContent = curPage >= els.length ? "Next ch." : "Next";
-  if (prev) prev.textContent = curPage <= 1 ? "Prev ch." : "Prev";
-  $$(".strip a").forEach(a => a.classList.toggle("on", +a.dataset.gotoPage === curPage));
-}
-function gotoPage(k) {
-  const els = pagesEls(); const el = els[k - 1]; if (!el) return;
-  const mobile = matchMedia("(max-width:1000px)").matches;
-  if (mobile) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 8, behavior: "smooth" });
-  else el.scrollIntoView({ block: "start", behavior: "smooth" });
-}
-function stepPage(d) {
-  const els = pagesEls(), n = els.length;
-  if ((d > 0 && curPage >= n) || !n) { if (d > 0) $(".ch-pager .next")?.click(); return; }
-  if (d < 0 && curPage <= 1) { $(".ch-pager .prev")?.click(); return; }
-  gotoPage(curPage + d);
-}
-function bindReader() {
-  curPage = 1; trackPage();
-  $$("[data-cpage]").forEach(b => b.onclick = () => stepPage(+b.dataset.cpage));
-  $$("[data-goto-page]").forEach(a => a.onclick = e => { e.preventDefault(); gotoPage(+a.dataset.gotoPage); });
-}
-document.addEventListener("scroll", () => { if (route.name === "comic") trackPage(); }, { capture: true, passive: true });
 
 /* ---------------- Keyboard ---------------- */
 const THEME_CYCLE = ["all", ...THEMES.map(t => t.id)];
@@ -394,13 +338,6 @@ document.addEventListener("keydown", e => {
   if (e.key === "/" && !typing) { e.preventDefault(); $("#q").focus(); $("#q").select(); return; }
   if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key;
-  if (route.name === "comic") {
-    if (k === "ArrowLeft") { $(".ch-pager .prev")?.click(); return; }
-    if (k === "ArrowRight") { $(".ch-pager .next")?.click(); return; }
-    if (k === "j" || k === "J") { stepPage(1); return; }
-    if (k === "k" || k === "K") { stepPage(-1); return; }
-    if (k === "Escape") { location.hash = "#/comics"; return; }
-  }
   if (route.name === "post") {
     if (k === "ArrowLeft") { $(".pager .prev")?.click(); return; }
     if (k === "ArrowRight") { $(".pager .next")?.click(); return; }
