@@ -21,6 +21,7 @@ That's why it runs at `https://<user>.github.io/<repo>/` (GitHub Pages project p
 | `#/search/engine` | Shortcut for a search |
 | `#/year/2025` | Shortcut for a year filter |
 | `#/post/<slug>` | An essay, e.g. `#/post/a-love-letter-to-the-commodore-64` |
+| `#/comics`, `#/comics/<slug>` | NyeToon: three series, then a chapter reader, e.g. `#/comics/08-nyetoon-floydandnorm01` |
 | `#/cv` | CV (`?notes=1#/cv` shows the source for every line and the "confirm" flags) |
 | `#/books`, `#/books/0` | Books; `/0` selects the one coming-soon title |
 
