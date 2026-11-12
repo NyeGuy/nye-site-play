@@ -7,7 +7,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 const ACCENT = 0xffa24a, BG = 0x16171a;
 const tmpV = new THREE.Vector3();
 
-export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }) {
+export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects, comics }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -133,6 +133,29 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
     reg(m, "next", String(i), `${title} (coming soon)`);
   });
 
+  // ---------- Comics arm: one standing page per NyeToon chapter (first page of the chapter as its card) ----------
+  const comicCards = [];
+  if (comics && themeObjs.comics) {
+    const T = themeObjs.comics, side = new THREE.Vector3(-T.dir.z, 0, T.dir.x);
+    comics.chapters.forEach((c, k) => {
+      const w = 0.78, h = Math.min(1.45, w / (c.cardAspect || 0.75));
+      const g = new THREE.Group();
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.08, h + 0.08), new THREE.MeshBasicMaterial({ color: 0x0d0e10, side: THREE.DoubleSide }));
+      const page = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex(c.card), side: THREE.DoubleSide, transparent: true }));
+      page.position.z = 0.006; back.position.z = 0.0; g.add(back, page);
+      const r = 5.9 + Math.floor(k / 2) * 0.78;
+      g.position.copy(T.dir).multiplyScalar(r).addScaledVector(side, (k % 2 ? 1 : -1) * 0.5).setY(h / 2 + 0.12);
+      g.userData.baseY = g.position.y;
+      scene.add(g);
+      reg(page, "comic", c.slug, c.title); back.userData = page.userData; pickables.push(back);
+      byKey.set(`comic:${c.slug}`, g);
+      comicCards.push(g);
+    });
+  }
+  function setComicsFocus(on) {
+    comicCards.forEach(g => g.children[1].material.opacity = on === false ? .35 : 1);
+  }
+
   // ---------- CV panel ----------
   const cvC = document.createElement("canvas"); cvC.width = 512; cvC.height = 320; const cx = cvC.getContext("2d");
   cx.fillStyle = "#1d1f23"; cx.fillRect(0, 0, 512, 320); cx.strokeStyle = "#3a3e46"; cx.lineWidth = 4; cx.strokeRect(2, 2, 508, 316);
@@ -193,7 +216,7 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
     if (kind === "theme") { selected = themeObjs[id]?.base || null; fit(selBox, selected); if (focus) frameTheme(id); return selected; }
     const o = byKey.get(`${kind}:${id}`) || null; selected = o; fit(selBox, o);
     const facing = new THREE.Vector3(Math.sin(0.64), 0.55, Math.cos(0.64));
-    if (o && focus) focusOn(o, kind === "essay" ? 9 : kind === "avatar" ? 8 : kind === "cv" ? 3.0 : 3.3, (kind === "book" || kind === "next" || kind === "cv") ? facing : null);
+    if (o && focus) focusOn(o, kind === "essay" ? 9 : kind === "avatar" ? 8 : kind === "cv" ? 3.0 : kind === "comic" ? 4.6 : 3.3, (kind === "book" || kind === "next" || kind === "cv") ? facing : null);
     return o;
   }
 
@@ -248,6 +271,7 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
       avatarCard.position.y = 2.0 + Math.sin(t * 1.3) * 0.04;
     }
     cvPanel.lookAt(camera.position.x, cvPanel.position.y, camera.position.z);
+    for (const g of comicCards) g.lookAt(camera.position.x, g.position.y, camera.position.z);
     ring.material.opacity = .35 + Math.sin(t * 2) * .15;
     for (const id in themeObjs) {                      // fade labels the camera is close to, so close-ups stay clear
       const T = themeObjs[id], d = camera.position.distanceTo(T.label.position);
@@ -287,7 +311,7 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
 
   function highlight(kind, id) { const o = kind ? (kind === "theme" ? themeObjs[id]?.base : byKey.get(`${kind}:${id}`)) : null; fit(hovBox, o && o !== selected ? o : null); }
   return {
-    canvas, mount, highlight, setPosts, setFilter, select, focusOn: (k, id) => focusOn(byKey.get(`${k}:${id}`)), frameTheme, resetView,
+    canvas, mount, highlight, setComicsFocus, setPosts, setFilter, select, focusOn: (k, id) => focusOn(byKey.get(`${k}:${id}`)), frameTheme, resetView,
     frameSelected: () => selected && focusOn(selected), screenOf, loadScan,
     onPick: f => listeners.pick.push(f), onHover: f => listeners.hover.push(f), onFps: f => fpsListeners.push(f),
     stats: () => ({ objects: pickables.length, essays: essayMeshes.length, fps }),
