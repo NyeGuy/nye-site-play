@@ -138,7 +138,7 @@ function refreshLists() {
     ${THEMES.map(t => `<li><a href="#/theme/${t.id}" data-set-theme="${t.id}" data-theme-id="${t.id}" class="${state.theme === t.id ? "on" : ""}"><i class="dot" style="background:${t.color}"></i>${esc(t.label)}<em>${countTheme(t.id)}</em></a></li>`).join("")}
     <li class="sep"></li>
     <li><a href="#/cv" class="${route.name === "cv" ? "on" : ""}"><i class="sq"></i>cv.json</a></li>
-    <li><a href="#/books" class="${route.name === "books" ? "on" : ""}"><i class="sq bk"></i>books/ <em>1 + 5</em></a></li>`;
+    <li><a href="#/books" class="${route.name === "books" ? "on" : ""}"><i class="sq bk"></i>books/ <em>1 + 1</em></a></li>`;
   $("#years").innerHTML = [["all", "All"], ...years().map(y => [String(y), y])].map(([v, l]) => `<button data-set-year="${v}" aria-pressed="${state.year == v}">${l}</button>`).join("");
   const arr = filtered();
   const desc = [state.theme !== "all" && themeLabel(state.theme), state.year !== "all" && state.year, state.q && `“${state.q}”`].filter(Boolean).join(" · ");
@@ -264,7 +264,7 @@ function renderInspector(kind, id) {
       ${dl([["year", esc(b.year)], ["essays", "28, in three threads"]])}<div class="ibtns">${b.buy.slice(0, 2).map((l, i) => `<a class="btn ${i ? "" : "primary"}" href="${l.href}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>`;
   } else if (kind === "next") {
     const t = window.BOOK_PROJECTS[+id];
-    el.innerHTML = `<p class="obj">book · placeholder</p><h3>${esc(t)}</h3><p class="isub">Coming soon. Working title; order and date to come.</p>
+    el.innerHTML = `<p class="obj">book · placeholder</p><h3>${esc(t)}</h3><p class="isub">Coming soon.</p>
       <div class="ibtns"><a class="btn" href="https://paragraph.com/@nyewarburton.eth/subscribe" target="_blank" rel="noopener">Subscribe to hear first</a></div>`;
   } else if (kind === "cv") {
     el.innerHTML = `<p class="obj">cv.json</p><h3>${esc(S.fullName)}</h3>${dl(window.CV.highlights.map(h => [esc(h.k.toLowerCase()), esc(h.v)]))}<p class="hint">Add <code>?notes=1</code> to see sources and confirm flags.</p>`;

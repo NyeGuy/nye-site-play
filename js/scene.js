@@ -116,7 +116,7 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
     });
   }
 
-  // ---------- Books: the 2025 book + five coming-soon wireframes ----------
+  // ---------- Books: the 2025 book + one coming-soon wireframe ----------
   const shelf = new THREE.Group(); shelf.position.set(-2.7, 0, 2.3); shelf.rotation.y = 0.64; scene.add(shelf);
   const coverMat = new THREE.MeshStandardMaterial({ map: tex(bookCoverUrl), roughness: .7 });
   const pageMat = new THREE.MeshStandardMaterial({ color: 0xe9e4d8, roughness: .9 }), backMat = new THREE.MeshStandardMaterial({ color: 0x8c4a2f, roughness: .8 });

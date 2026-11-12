@@ -131,5 +131,5 @@ window.BOOKS = {
     ],
     missing: [ { label: "Bookshop.org / indie retailers", note: "No listing found — placeholder" } ]
   },
-  next: { title: "Next book", status: "Coming soon", note: "Working title, threads and date to come. Sign up on Paragraph to hear first." }
+  next: { title: "Decentralization and other Essays: Nye's Digital Lab Volume 2, 2026", status: "Coming soon" }
 };
