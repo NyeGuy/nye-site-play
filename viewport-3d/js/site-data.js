@@ -8,7 +8,7 @@ window.SITE = {
   title: "Dean, School of Creative Technology (STEC) at SCAD",
   students: "My students call me “Prof. Nye.”",
   quote: "I teach artists to build for what’s coming.",
-  intro: "Twenty-five years making animated characters and the tech behind them in Hollywood. Six years building SCAD’s game program. Now Dean of the School of Creative Technology, writing weekly about creativity in an age of rapid change.",
+  intro: "Twenty-five years making animated characters and the tech behind them in Hollywood. Six years building game development and rebooting the graduate interactive track, redeveloping the year-long production pipeline with game teams deploying and shipping game capstones, Princeton Review #9. Now Dean of the School of Creative Technology, currently building Applied AI, Robotics, and SCAD Satellite for Creative Technology, writing weekly about creativity in an age of rapid change.",
   ethos: [
     "Perfect is impossible. Become comfortable with iteration.",
     "Creativity is painful. Ideas are born from failure.",
@@ -45,17 +45,17 @@ window.SOURCES = {
 
 window.CV = {
   highlights: [
-    { k: "Now", v: "Dean, School of Creative Technology (STEC), Savannah College of Art and Design", when: "2026 – present", src: ["scad","brief"] },
-    { k: "Built", v: "Six years building SCAD’s game program — Associate Chair, then Chair, Interactive Design & Game Development; strategy and development of SCAD Games Studio", when: "2020 – 2026", src: ["scad","brief"] },
+    { k: "Now", v: "Dean, School of Creative Technology (STEC), Savannah College of Art and Design — currently building Applied AI, Robotics, and SCAD Satellite for Creative Technology", when: "2026 – present", src: ["scad","brief"] },
+    { k: "Built", v: "Six years building game development and rebooting the graduate interactive track — Associate Chair, then Chair, Interactive Design & Game Development; redeveloping the year-long production pipeline with game teams deploying and shipping game capstones; Princeton Review #9", when: "2020 – 2026", src: ["scad","brief"] },
     { k: "Hollywood", v: "Twenty-five years on animated characters and the tech behind them — character animation, previs and real-time pipelines, from feature films like The Avengers to motion-capture stages", when: "c. 1998 – 2019", src: ["brief","cv","meta"], flag: "“25 years” and “ending on mocap stages” come from Nye’s brief. The public CV says “over 20 years”; the mocap-stage chapter isn’t itemised publicly." },
     { k: "Speaking", v: "SXSW EDU 2026 · TAIG (Transformer AI Games) · PMP conference, Boston University", when: "2026", src: ["brief"] }
   ],
   sections: [
     { heading: "Leadership & Education", src: "scad", entries: [
-      { when: "2026 – present", title: "Dean, School of Creative Technology (STEC)", where: "Savannah College of Art and Design, Savannah, GA", src: "scad" },
+      { when: "2026 – present", title: "Dean, School of Creative Technology (STEC). Currently building Applied AI, Robotics, and SCAD Satellite for Creative Technology", where: "Savannah College of Art and Design, Savannah, GA", src: ["scad","brief"] },
       { when: "2023 – 2026", title: "Chair, Interactive Design and Game Development", where: "SCAD, Savannah, GA", src: "scad", flag: "nyewarburton.com lists Chair as 2022 – present." },
       { when: "2020 – 2023", title: "Associate Chair, Interactive Design and Game Development", where: "SCAD, Savannah, GA", src: "scad", flag: "nyewarburton.com lists 2020 – 2022." },
-      { when: "", title: "Research and teach Animation for Games (real-time characters, game mechanics, AI); responsible for the strategy and development of SCAD Games Studio", where: "SCAD", src: "scad" },
+      { when: "", title: "Research and teach Animation for Games (real-time characters, game mechanics, AI). Six years building game development and rebooting the graduate interactive track; redeveloping the year-long production pipeline with game teams deploying and shipping game capstones; Princeton Review #9", where: "SCAD", src: ["scad","brief"] },
       { when: "2012 – 2014", title: "Game design and animation instructor", where: "The Art Institutes, Los Angeles / Santa Monica, CA", src: "scad" },
       { when: "1999 – 2000", title: "Animation Instructor", where: "School of Visual Arts, New York, NY", src: "cv" }
     ]},

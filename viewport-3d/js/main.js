@@ -273,7 +273,7 @@ function renderInspector(kind, id) {
       <p class="hint">Pick a theme in the outliner, the chips or the scene. Arrow down from search, or <kbd>J</kbd>/<kbd>K</kbd>, to move through results; <kbd>Enter</kbd> opens.</p>`;
   } else {
     el.innerHTML = `<p class="obj">avatar · cartoon stand-in</p><h3>${esc(S.name)}</h3>
-      ${dl([["role", "Dean, School of Creative Technology, SCAD"], ["built", "SCAD’s game program, 6 years"], ["history", "25 years of Hollywood characters, rigs and mocap"], ["now", "Robotics &amp; simulation"], ["output", `${Posts.list.length || "~105"} essays, weekly`]])}
+      ${dl([["role", "Dean, School of Creative Technology, SCAD"], ["built", "Six years building game development and rebooting the graduate interactive track; redeveloping the year-long production pipeline with game teams deploying and shipping game capstones; Princeton Review #9"], ["history", "25 years of Hollywood characters, rigs and mocap"], ["now", "Applied AI, Robotics, and SCAD Satellite for Creative Technology"], ["output", `${Posts.list.length || "~105"} essays, weekly`]])}
       <p class="ph2">Constraints</p><ol class="ethos">${S.ethos.map(e => `<li>${esc(e)}</li>`).join("")}</ol><p class="close">${esc(S.close)}</p>`;
   }
 }

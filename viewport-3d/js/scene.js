@@ -137,8 +137,8 @@ export function createViewport({ themes, avatarUrl, bookCoverUrl, bookProjects }
   const cvC = document.createElement("canvas"); cvC.width = 512; cvC.height = 320; const cx = cvC.getContext("2d");
   cx.fillStyle = "#1d1f23"; cx.fillRect(0, 0, 512, 320); cx.strokeStyle = "#3a3e46"; cx.lineWidth = 4; cx.strokeRect(2, 2, 508, 316);
   cx.fillStyle = "#ffa24a"; cx.font = "600 30px 'JetBrains Mono', monospace"; cx.fillText("cv.json", 28, 54);
-  cx.fillStyle = "#ecebe8"; cx.font = "500 26px Inter, sans-serif";
-  ["Dean · STEC @ SCAD", "Built SCAD’s game program", "25 yrs Hollywood characters", "Mocap · previz · real-time"].forEach((l, i) => cx.fillText(l, 28, 112 + i * 50));
+  cx.fillStyle = "#ecebe8"; cx.font = "500 22px Inter, sans-serif";
+  ["Dean · STEC @ SCAD", "Six years building game development", "Rebooting the graduate interactive track", "Princeton Review #9", "25 yrs Hollywood characters", "Mocap · previz · real-time"].forEach((l, i) => cx.fillText(l, 28, 100 + i * 34));
   const cvTex = new THREE.CanvasTexture(cvC); cvTex.colorSpace = THREE.SRGBColorSpace;
   const cvPanel = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.0), new THREE.MeshBasicMaterial({ map: cvTex, side: THREE.DoubleSide }));
   cvPanel.position.set(2.9, 1.0, 1.9); scene.add(cvPanel);
